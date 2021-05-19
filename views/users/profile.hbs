@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col s12 l4">
+        {{!-- Must contain value the same to menu item --}}
+        <input type="hidden" id="users_menu_caption" value="Profile">
+        {{>users_menu}}
+    </div>
+    <div class="col s12 l8">
+        {{#if user}}
+        <div>
+            <div class="center-align">
+                <h3>{{user.nick}}</h3>
+            </div>
+        </div>
+        <table>
+            <tr>
+                <td>Picture:</td>
+                <td><img src="{{user.avatar}}" width="64" height="64" class="circle materialboxed" /></td>
+            </tr>
+            <tr>
+                <td>Id</td>
+                <td>{{user.id}}</td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>{{user.email}}</td>
+            </tr>
+            <tr>
+                <td>Nickname</td>
+                <td>{{user.nick}}</td>
+            </tr>
+            <tr>
+                <td>Level:</td>
+                <td>{{user.level}}</td>
+            </tr>
+        </table>
+        {{#if isOwner}}
+        <div class="center-align">
+            <a href="#">change password</a> | <a href="#">change email</a> | <a href="#">update avatar</a>
+        </div>
+        {{/if}}
+        {{else}}
+        <h3>Not found</h3>
+        {{/if}}
+    </div>
+</div>

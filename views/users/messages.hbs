@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col s12 l4">
+        {{!-- Must contain value the same to menu item --}}
+        <input type="hidden" id="users_menu_caption" value="Messages">
+        {{>users_menu}}
+    </div>
+    <div class="row">
+        <div class="col s12 l8">
+            <ul class="collection">
+                {{#each dialogs}}
+                <li class="collection-item avatar">
+                    <a href="/users/profile?id={{this.from.id}}">
+                        <img src="{{this.from.avatar}}" alt="" class="circle">
+                        <span class="title">{{this.from.nick}}</span>
+                    </a>
+                    <a href="/users/messages/sender?to={{this.from.id}}">
+                    <p>{{this.content}}</p>
+                    </a>
+                    <span class="secondary-content">{{this.createdAt}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>

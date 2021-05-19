@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col s12 l4">
+        {{!-- Must contain value the same to menu item --}}
+        <input type="hidden" id="users_menu_caption" value="Publications">
+        {{>users_menu}}
+    </div>
+    <div class="col s12 l8">
+        <ul class="collection">
+            {{#each publications}}
+            <li class="collection-item">
+                <a href="/publications?id={{this.id}}">{{this.name}}</a>
+                <span class="secondary-content">{{this.created}}</span>
+            </li>
+            {{/each}}
+        </ul>
+        <ul class="pagination">
+            {{#if prevPage}}
+            <li class="waves-effect"><a href="/users/publications/?id={{user.id}}&page={{prevPage}}"><i class="material-icons">chevron_left</i></a></li>
+            {{else}}
+            <li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>
+            {{/if}}
+
+            {{#each pagination}}
+            {{#ifEquals ../page this}}
+            <li class="active"><a href="#">{{this}}</a></li>
+            {{else}}
+            <li class="waves-effect"><a href="/users/publications/?id={{../user.id}}&page={{this}}">{{this}}</a></li>
+            {{/ifEquals}}
+            {{/each}}
+
+            {{#if nextPage}}
+            <li class="waves-effect"><a href="/users/publications/?id={{user.id}}&page={{nextPage}}"><i class="material-icons">chevron_right</i></a></li>
+            {{else}}
+            <li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>
+            {{/if}}
+        </ul>
+    </div>
+</div>

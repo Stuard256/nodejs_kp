@@ -1,0 +1,50 @@
+<div class="row">
+    <!--Sign in form-->
+    <form class="col m12 l6" action="/signin" method="post">
+        <div class="section">
+            <h5>Sign In</h5>
+        </div>
+        <div class="input-field col s12">
+            <input id="email-input-signin" type="email" name="email" />
+            <label for="email-input-signin">Email</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="password-input-signin" type="password" name="password" />
+            <label for="password-input-signin">Password</label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit"><i class="material-icons right">send</i>Sign In</button>
+    </form>
+    <div class="divider"></div>
+    <!--Sign up form-->
+    <form class="col m12 l6" method="post" action="register" enctype="multipart/form-data">
+        <div class="section">
+            <h5>Sign Up</h5>
+        </div>
+        <div class="input-field col s12">
+            <input id="email-input-signup" name="email" type="email" value="mobik.dimka@gmail.com" />
+            <label for="email-input-sugnup">Email</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="nickname-input-signup" name="nick" type="text" value="Dimon Mobile" />
+            <label for="nickname-input-signup">Nickname</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="password-input-signup" name="password" type="password" value="12345" />
+            <label for="password-input-signup">Password</label>
+        </div>
+        <div class="input-field col s12">
+            <input id="password-repeat-input-signup" name="repeatPassword" type="password" value="12345" />
+            <label for="password-repeat-input-signup">Repeat-password</label>
+        </div>
+        <div class="file-field input-field col s12">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" name="avatar">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Your picture">
+            </div>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">Sign Up</button>
+    </form>
+</div>

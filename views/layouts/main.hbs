@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/public/css/materialize.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/public/css/sticky.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+    <script>
+        function searchFeed() {
+            let feedContainerElement = document.getElementById('feedContainer');
+            feedContainerElement.innerHTML = '';
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/feed/search?name=${document.getElementById('search').value}&offset=${offset}`);
+            xhr.addEventListener('load', e => {
+                let xhrObject = JSON.parse(xhr.responseText);
+                if (xhrObject.success) {
+                    offset += xhrObject.items.length;
+                    for (let feedItem of xhrObject.items) {
+                        appendFeedElement(feedItem);
+                    }
+                } else {
+                    M.toast({ html: `Error while search:<br/>${xhrObject.error}` });
+                }
+            });
+            xhr.send();
+            return false;
+        }
+
+        function appendFeedElement(feedItem) {
+            let templateContent = feedItemTemplateElement.content.cloneNode(true);
+            templateContent.querySelector('img').setAttribute('src', getImgFromFeedItem(feedItem));
+            templateContent.querySelector('.card-title').innerText = feedItem.name;
+            templateContent.querySelector('a').setAttribute('href', `/publications?id=${feedItem.id}`);
+            feedContainerElement.appendChild(templateContent);
+        }
+    </script>
+</head>
+
+<body>
+    {{#if req.session.userId}}
+    <input type="hidden" id="globalUserId" value="{{req.session.userId}}" />
+    {{/if}}
+    <header>
+        <nav>
+            <div class="nav-wrapper teal">
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger waves-effect waves-light">
+                    <i class="material-icons">menu</i>
+                </a>
+                <a href="/" class="brand-logo waves-effect waves-light">⠀⠀⠀News</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/" class="waves-effect waves-light">Feed</a></li>
+                    {{#unless req.session.userId}}
+                    <li><a href="/register" class="waves-effect waves-light">Sign In</a></li>
+                    {{else}}
+                    <li>
+                        <a href="/users/profile?id={{req.session.userId}}" class="waves-effect waves-light tooltipped"
+                           data-position="bottom" data-tooltip="{{req.session.userNickname}}">
+                            <img class="circle" width="40" style="vertical-align: middle;" height="40"
+                                 src="{{req.session.userAvatar}}" />
+                        </a>
+                    </li>
+                    {{/unless}}
+                </ul>
+            </div>
+        </nav>
+        <ul class="sidenav" id="mobile-demo">
+            {{#unless req.session.userId}}
+            <li><a href="/register" class="waves-effect">Sign In</a></li>
+            {{else}}
+            <li>
+                <div class="user-view">
+                    <div class="background">
+                        <img src="/public/images/material-bg.jpg">
+                    </div>
+                    <a href="/users/profile?id={{req.session.userId}}">
+                        <img class="circle"
+                             src="{{req.session.userAvatar}}">
+                    </a>
+                    <a href="/users/profile?id={{req.session.userId}}">
+                        <span class="white-text name">{{req.session.userNickname}}</span>
+                    </a>
+                    <a href="/users/profile?id={{req.session.userId}}">
+                        <span class="white-text email">{{req.session.userEmail}}</span>
+                    </a>
+                </div>
+            </li>
+            <li><a href="/" class="waves-effect">Feed</a></li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li>
+                <!--Search -->
+                <form onsubmit="return searchFeed()">
+                    <div class="input-field">
+                        <input id="search" type="search" value="" required>
+                        <label for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </li>
+            {{/unless}}
+        </ul>
+    </header>
+    <main class="container">
+        {{{body}}}
+    </main>
+    <footer class="page-footer teal">
+        <div class="container">
+            <div class="row">
+                <h5 class="white-text">BSTU node.js express server</h5>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                2021 Andy Fly
+            </div>
+        </div>
+    </footer>
+
+    {{#if req.session.userId}}
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red waves-effect waves-light tooltipped" data-position="left" data-tooltip="Fast actions and links">
+            <i class="large material-icons">call_to_action</i>
+        </a>
+        <ul>
+            {{#ifGreaterOrEqual req.session.userLevel 100}}
+            <li><a class="btn-floating blue waves-effect waves-light tooltipped" data-position="left" data-tooltip="Administration panel" href="/admin"><i class="material-icons">developer_board</i></a></li>
+            {{/ifGreaterOrEqual}}
+            <li><a class="btn-floating yellow waves-effect waves-light tooltipped" data-position="left" data-tooltip="Create new publication" href="/publications/new"><i class="material-icons">mode_edit</i></a></li>
+        </ul>
+    </div>
+    {{/if}}
+
+    <script type="text/javascript" src="/public/js/materialize.js"></script>
+    
+    <script>
+        M.AutoInit();
+    </script>
+    {{#each messages}}
+    <script>
+        M.toast({ html: '{{this}}' });
+    </script>
+    {{/each}}
+    {{#if req.session.userId}}
+    <script src="/public/js/common.js"></script>
+    {{/if}}
+</body>
+
+</html>

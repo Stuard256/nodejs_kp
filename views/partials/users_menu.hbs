@@ -1,0 +1,15 @@
+<div class="collection" id="users_menu">
+    <a href="/users/profile?id={{user.id}}" class="collection-item waves-effect"><i class="material-icons left">home</i>Profile</a>
+    <a href="/users/publications?id={{user.id}}" class="collection-item waves-effect"><i class="material-icons left">list</i>Publications</a>
+    {{#unless isOwner}}
+    {{#if req.session.userId}}
+    <a href="/users/messages/sender?to={{user.id}}" class="collection-item waves-effect brown-text"><i class="material-icons left">message</i>Send message</a>
+    {{/if}}
+    {{/unless}}
+    {{! -- <a href="#" class="collection-item purple-text text-darken-4 waves-effect">Administration</a> -- }}
+    {{#if isOwner}}
+    <a href="/users/messages" class="collection-item waves-effect"><i class="material-icons left">message</i>Messages</a>
+    <a href="/users/logout" class="collection-item red-text waves-effect"><i class="material-icons left">exit_to_app</i>Logout</a>
+    {{/if}}
+</div>
+<script src="/public/js/users_menu_activator.js"></script>

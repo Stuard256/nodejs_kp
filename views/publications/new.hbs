@@ -1,0 +1,97 @@
+<script src="/public/js/markdown.js"></script>
+<ul id="tabs-swipe-demo" class="tabs">
+  <li class="tab col s3"><a href="#test-swipe-1">Edit</a></li>
+  <li class="tab col s3" id="preview_tab"><a href="#test-swipe-3">Preview</a></li>
+</ul>
+<div id="test-swipe-1">
+  <div class="row valign-wrapper blue lighten-5">
+    <div class="col l4">
+      <button id="publication_draft_save" class="btn-flat waves-effect">
+        <i class="material-icons left">cloud</i>Save draft
+      </button>
+    </div>
+    <div class="col l3">
+      <button id="drafts_list_btn" class="btn-flat waves-effect modal-trigger" href="#draft_list_modal"><i
+          class="material-icons left">list</i>Drafts</button>
+    </div>
+    <div class="col l3">
+      <label>
+        <input id="publication_draft_autosave" type="checkbox" checked="checked" />
+        <span>Autosave</span>
+      </label>
+    </div>
+    <div class="col l2">
+      {{>preloader preloader_size="small" preloader_id="draft_preloader"}}
+    </div>
+  </div>
+  <form id="newpost-form" action="/publications/new" method="post">
+    <div class="col s12">
+      <div class="input-field">
+        <input minlength="5" maxlength="55" data-length="55" id="new_publication_input" name="title" type="text" class="validate" value="{{publicationTitle}}">
+        <label for="new_publication_input">Publication name</label>
+      </div>
+    </div>
+    <div class="col s12">
+      <div class="input-field">
+        <textarea minlength="5" id="publication_content_textarea" name="content" class="materialize-textarea validate"
+          data-length="120">{{publicationContent}}</textarea>
+        <label for="publication_content_textarea">Markdown content</label>
+      </div>
+    </div>
+    <input type="hidden" name="uuid" value="{{uuid}}" />
+    <div class="col s12">
+      <button id="publish_btn" class="btn waves-effect waves-light"><i class="material-icons left">publish</i>Publish</button>
+    </div>
+  </form>
+
+  <div class="row valign-wrapper">
+    <div class="col s12 l5">
+      <button id="upload_picture_btn" class="btn btn-flat file-field">
+        <i class="material-icons left">cloud_upload</i>
+        Upload picture
+        <input id="upload_picture" type="file" />
+      </button>
+    </div>
+    <div class="col s12 l7">
+      {{#if isDraft}}
+      <blockquote>You are working with your draft, you can <a href="/publications/new">create new</a></blockquote>
+      {{else}}
+      <blockquote>You are working with new publication draft.</blockquote>
+      {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 progress">
+      <div id="upload_progress"></div>
+    </div>
+  </div>
+
+</div>
+<div class="row" id="test-swipe-3">
+  <div class="col s12 green lighten-5" id="draft_preview">
+  </div>
+</div>
+
+<!-- Modals -->
+<div id="draft_list_modal" class="modal">
+  <div class="modal-content">
+    <h4>My drafts</h4>
+    <div class="input-field">
+      <input id="draft_list_search" type="text">
+      <label for="draft_list_search">Draft name/uuid</label>
+    </div>
+    {{>preloader preloader_size="large" preloader_id="draft_list_preloader"}}
+    <ul id="draft_list_collection" class="collection">
+      {{!-- <li class="collection-item" href="#">
+        <a href="#">Alvin</a>
+        <a href="#!" class="secondary-content"><i class="material-icons">delete_forever</i></a>
+        <a href="#!" class="secondary-content"><i class="material-icons">open_in_browser</i></a>
+      </li> --}}
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
+</div>
+
+<script src="/public/js/publication_page.js"></script>

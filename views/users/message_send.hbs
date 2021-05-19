@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col s12 l4">
+        {{!-- Must contain value the same to menu item --}}
+        <input type="hidden" id="users_menu_caption" value="Messages">
+        {{>users_menu}}
+    </div>
+
+    <div class="col s12 l8">
+        <div class="row">
+            <div class="col s12">
+                <nav>
+                    <div class="nav-wrapper">
+                        <div class="col s12">
+                            <a href="/users/messages" class="breadcrumb">Messages</a>
+                            <a href="#" class="breadcrumb">Send message</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <h5>New message for <a href="/users/profile?id={{toUser.id}}">{{toUser.nick}}</a></h5>
+            </div>
+        </div>
+        <div class="row">
+            <form class="col s12" method="POST" action="/users/messages">
+                <input id="messageToElement" type="hidden" name="to" value="{{toUser.id}}"/>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="messageTextarea" name="content" class="materialize-textarea validate" minlength="5" maxlength="1024"></textarea>
+                        <label for="messageTextarea">Message</label>
+                    </div>
+                </div>
+                <button id="sendMsgBtn" class="btn waves-effect waves-light">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        let sendBtn = document.getElementById('sendMsgBtn');
+        sendBtn.addEventListener('click', e => {
+            sendWSMessage(parseInt(messageToElement.value), document.getElementById('messageTextarea').value);
+        });
+    </script>
+</div>
